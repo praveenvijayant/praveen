@@ -3,6 +3,10 @@ const 	express = require("express"),app = express(),
 		https = require('https'),http = require('http'),fs = require('fs');
 		var path=require('path');
 		var cookieParser = require('cookie-parser');
+		
+app.listen(process.env.PORT || 8443,function(){
+	console.log("server 8443");
+});
 
 //external modules
 
@@ -40,6 +44,7 @@ app.post("/",function(req,res){
 		
 		
 
-var httpServer = http.createServer(app);
-httpServer.listen(8080);
-console.log("http running at 8080");
+
+//var httpServer = http.createServer(app);
+//httpServer.listen(8080);
+//console.log("http running at 8080");
