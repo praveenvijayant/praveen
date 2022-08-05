@@ -8,11 +8,10 @@ const port = 46200;
 
 //Create an instance of the server and attach the client handling callback
 const server = net.createServer(onClientConnection);
-
+//process.env.PORT || 
 //Start listening on given port and host.
-server.listen(process.env.PORT || port,function(){
-   console.log(`Server started on port ${port}`); 
-   console.log(process.env.PORT);
+server.listen(port,function(){
+   console.log(`Server started on port ${port}`);
 });
 
 
