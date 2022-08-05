@@ -4,18 +4,15 @@ const net = require('net');
 //Configuration ===================================
 const port = 8443;
 
-app.listen(process.env.PORT || 8443,function(){
-	console.log(process.env.PORT+"or port: 8443");
-});
-//=================================================
 
 
 //Create an instance of the server and attach the client handling callback
 const server = net.createServer(onClientConnection);
 
 //Start listening on given port and host.
-server.listen(port,function(){
+server.listen(process.env.PORT || port,function(){
    console.log(`Server started on port ${port}`); 
+   console.log(process.env.PORT);
 });
 
 
