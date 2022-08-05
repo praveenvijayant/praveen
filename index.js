@@ -2,7 +2,11 @@
 const net = require('net');
 
 //Configuration ===================================
-const port = 8888;
+const port = 8443;
+
+app.listen(process.env.PORT || 8443,function(){
+	console.log(process.env.PORT+"or port: 8443");
+});
 //=================================================
 
 
