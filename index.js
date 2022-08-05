@@ -1,43 +1,45 @@
-const 	express = require("express"),app = express(),
-		bodyParser = require('body-parser'),
-		https = require('https'),http = require('http'),fs = require('fs');
-		var path=require('path');
-		var cookieParser = require('cookie-parser');
-		
-app.listen(process.env.PORT || 8443,function(){
-	console.log("server 8443");
+// Get net module 
+const net = require('net');
+
+//Configuration ===================================
+const port = 8443;
+//=================================================
+
+
+//Create an instance of the server and attach the client handling callback
+const server = net.createServer(onClientConnection);
+
+//Start listening on given port and host.
+server.listen(port,function(){
+   console.log(`Server started on port ${port}`); 
 });
 
-//external modules
 
-
-
-
-
-//Middle wares
-		app.use(bodyParser.urlencoded({extended:true}));
-		app.use(bodyParser.json());
-		app.use(cookieParser());
+//the client handling callback
+function onClientConnection(sock){
+    //Log when a client connnects.
+    console.log(`${sock.remoteAddress}:${sock.remotePort} Connected`);
+    
+	//Handle the client data.
+    sock.on('data',function(data){
+        //Log data received from the client
+        console.log(`>> data received : ${data} `);
 		
-//express static files
-		app.use(express.static(path.join(__dirname, 'static'),{ maxAge: 2592000000 }));//30days
-		app.use(express.static(path.join(__dirname, 'public'),{ maxAge: 86400000 }));//1 day
-
-//view engine
-		app.engine('html',require("ejs").renderFile);
-		app.set('view engine','html');
-
-//external modules
+		//prepare and send a response to the client 
+		let serverResp = "Hello from the server"
+		sock.write(serverResp);
 		
-		
-		
-app.get("/",function(req,res){
-    console.log("Inside get request", req.body);
-    res.end('Get request');
-});
-
-app.post("/",function(req,res){
-    console.log("Inside post request", req.body);
-    res.end('Post request');
-});
- 
+		//close the connection 
+		sock.end()        
+	});
+    
+	//Handle when client connection is closed
+    sock.on('close',function(){
+        console.log(`${sock.remoteAddress}:${sock.remotePort} Connection closed`);
+    });
+    
+	//Handle Client connection error.
+    sock.on('error',function(error){
+        console.error(`${sock.remoteAddress}:${sock.remotePort} Connection Error ${error}`);
+    });
+};
