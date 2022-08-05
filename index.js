@@ -20,6 +20,7 @@ server.listen(process.env.PORT || port,function(){
 function onClientConnection(sock){
     //Log when a client connnects.
     console.log(`${sock.remoteAddress}:${sock.remotePort} Connected`);
+	console.log(sock);
     
 	//Handle the client data.
     sock.on('data',function(data){
