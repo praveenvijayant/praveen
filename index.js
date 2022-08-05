@@ -10,9 +10,9 @@ const port = 1025;
 const server = net.createServer(onClientConnection);
 //process.env.PORT
 //Start listening on given port and host.
-server.listen(port,function(){
+server.listen(process.env.PORT || port,function(){
    //console.log(`Server started on port ${process.env.PORT}`);
-   console.log("Server started on port "+ port);
+   console.log("Server started on port "+ port+" "+process.env.PORT);
 });
 
 
